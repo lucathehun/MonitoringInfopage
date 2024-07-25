@@ -18,15 +18,18 @@
             <div></div>
         </div>
         <div class="menu-content" id="menuContent">
-            <!-- Menu items will be loaded here -->
+            <a class='button' id='navMain' onclick='showMainContent()'>Home</a>
+            <a class="button" id='navBase' onclick='showBasicContent()'>Basis Infos</a>
+            <a class="button" id='navAdv' onclick='showAdvancedContent()'>Fortgeschrittene Infos</a>
+            <a href="https://icinga.com/docs/" class="button">Icinga2 Dokumentation</a>
         </div>
     <!-- Other content of the page can go here -->
     <script src="./script.js"> </script>
   </head>
   <body>
-    <div class="main-content">
-      <h1>PLACEHOLDER</h1>
-    </div>
+    <div class="main-content" id='main-content'> </div>
+    <div class="basic-content" id="basic-content"> </div>
+    <div class="advanced-content"id="advanced-content"> </div>
   </body>
   <footer>
     <nav>
