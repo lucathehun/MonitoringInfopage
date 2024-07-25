@@ -1,4 +1,16 @@
 /* style.css */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white; /* Adjust as needed */
+  z-index: 1000; /* Ensure it stays on top of other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+}
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -11,7 +23,7 @@ body {
 h1 {
   margin: 0;
   padding: 0px;
-  text-align: center;
+  text-align: left;
   font-size: 1.5em;
 }
 
@@ -22,6 +34,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-left: 33%;
+  padding-right: 33%;
 }
 
 .advanced-content {
