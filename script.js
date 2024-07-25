@@ -23,28 +23,19 @@ fetch('advancedInfo.html')
 
 
 function showBasicContent() {
-    // Set display to flex for basic-content
     document.getElementById('basic-content').style.display = 'flex';
-    
-    // Set display to none for advanced-content and main-content
     document.getElementById('advanced-content').style.display = 'none';
     document.getElementById('main-content').style.display = 'none';
 }
 
 function showAdvancedContent() {
-    // Set display to flex for basic-content
     document.getElementById('basic-content').style.display = 'none';
-    
-    // Set display to none for advanced-content and main-content
     document.getElementById('advanced-content').style.display = 'flex';
     document.getElementById('main-content').style.display = 'none';
 }
 
 function showMainContent() {
-    // Set display to flex for basic-content
     document.getElementById('basic-content').style.display = 'none';
-    
-    // Set display to none for advanced-content and main-content
     document.getElementById('advanced-content').style.display = 'none';
     document.getElementById('main-content').style.display = 'flex';
 }
