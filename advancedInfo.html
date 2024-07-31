@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortgeschrittene Icinga Web 2 Funktionen</title>
+</head>
+<body>
+    <h1>Fortgeschrittene Icinga Web 2 Funktionen</h1>
+    
+    <div class="info-box">
+        <p>Diese Informationen beziehen sich auf eine Einzelserver-Installation von Icinga 2 ohne Satelliten.</p>
+    </div>
+    
+    <h2>1. Neue Hosts hinzufügen</h2>
+    <p>Um einen neuen Host in Icinga 2 hinzuzufügen, folgen Sie diesen Schritten:</p>
+    <ol>
+        <li>Erstellen Sie eine neue Konfigurationsdatei im Verzeichnis <code>/etc/icinga2/conf.d/</code>, z.B. <code>myhost.conf</code></li>
+        <li>Fügen Sie die Host-Definition hinzu:</li>
+    </ol>
+    <pre><code>
+object Host "myhost" {
+  import "generic-host"
+  address = "192.168.1.100"
+  vars.os = "Linux"
+}
+    </code></pre>
+    <ol start="3">
+        <li>Überprüfen Sie die Konfiguration mit <code>icinga2 daemon -C</code></li>
+        <li>Laden Sie die Icinga 2 Konfiguration neu: <code>systemctl reload icinga2</code></li>
+    </ol>
+
+    <h2>2. Services konfigurieren</h2>
+    <p>Fügen Sie Services zu Ihrem Host hinzu:</p>
+    <pre><code>
+apply Service "ping4" {
+  import "generic-service"
+  check_command = "ping4"
+  assign where host.address
+}
+
+apply Service "http" {
+  import "generic-service"
+  check_command = "http"
+  assign where host.vars.os == "Linux"
+}
+    </code></pre>
+
+    <h2>3. Benachrichtigungen einrichten</h2>
+    <p>Konfigurieren Sie E-Mail-Benachrichtigungen:</p>
+    <ol>
+        <li>Erstellen Sie eine Benutzer-Konfiguration in <code>/etc/icinga2/conf.d/users.conf</code>:</li>
+    </ol>
+    <pre><code>
+object User "icingaadmin" {
+  import "generic-user"
+  display_name = "Icinga Admin"
+  email = "admin@example.com"
+}
+    </code></pre>
+    <ol start="2">
+        <li>Konfigurieren Sie die Benachrichtigungen für Hosts und Services:</li>
+    </ol>
+    <pre><code>
+apply Notification "mail-host-notification" to Host {
+  import "mail-host-notification"
+  users = [ "icingaadmin" ]
+  interval = 2h
+  assign where host.vars.notification.mail
+}
+
+apply Notification "mail-service-notification" to Service {
+  import "mail-service-notification"
+  users = [ "icingaadmin" ]
+  interval = 2h
+  assign where service.vars.notification.mail
+}
+    </code></pre>
+
+    <h2>4. Dashboards anpassen</h2>
+    <p>In Icinga Web 2 können Sie benutzerdefinierte Dashboards erstellen:</p>
+    <ol>
+        <li>Gehen Sie zu "Dashboard" → "Neues Dashboard"</li>
+        <li>Fügen Sie Widgets hinzu, z.B. "Host Overview", "Service Overview"</li>
+        <li>Konfigurieren Sie Filter für spezifische Hostgruppen oder Service-Typen</li>
+    </ol>
+
+    <h2>5. API-Nutzung</h2>
+    <p>Nutzen Sie die Icinga 2 API für Automatisierung:</p>
+    <pre><code>
+curl -k -s -u root:icinga -H 'Accept: application/json' \
+-X POST 'https://localhost:5665/v1/objects/hosts' \
+-d '{ "attrs": { "display_name": "API Host", "address": "192.168.1.200", "check_command": "hostalive" } }'
+    </code></pre>
+
+    <p>Diese Beispiele zeigen einige fortgeschrittene Funktionen von Icinga Web 2 und Icinga 2. Passen Sie die Konfigurationen an Ihre spezifischen Bedürfnisse an.</p>
+</body>
+</html>
+
